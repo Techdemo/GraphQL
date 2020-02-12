@@ -2,6 +2,9 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const graphqlHttp = require('express-graphql')
 const { buildSchema } = require('graphql')
+const mongoose = require('mongoose');
+
+const User = require('./models/user')
 
 const app = express()
 
@@ -9,28 +12,67 @@ app.use(bodyParser.json())
 
 app.use('/graphql', graphqlHttp({
   schema: buildSchema(`
-    type rootQuery {
-      Users: [String!]!
+    type User {
+      _id: ID!
+      name: String!
+      age: Int!
+      city: String!
     }
-    type rootMutation {
-      createUser(name: String): String
+
+    input UserInput {
+      name: String!
+      age: Int!
+      city: String!
     }
+
+    type RootQuery {
+      users: [User!]!
+    }
+
+    type RootMutation {
+      createUser(userInput: UserInput): User
+    }
+
     schema {
-      query: rootQuery,
-      mutation: rootMutation
+      query: RootQuery,
+      mutation: RootMutation
     }
   `),
   rootValue: {
-    Users: () => {
-      return ['Bert', 'Ernie', 'Pino']
+    users: () => {
+     return User.find()
+      .then(users => {
+        return users.map(user => {
+          return { ...user._doc, _id: user.id }
+        })
+      }).catch(err => {
+        throw err
+      })
     },
     createUser: (args) => {
-      const userName = args.name
-      return userName
+      const user = new User({
+        name: args.userInput.name,
+        age: args.userInput.age,
+        city: args.userInput.city,
+      })
+      return user
+      .save().then(result => {
+        console.log(result)
+        return {...result._doc}
+      }).catch(err => {
+        console.log(err)
+        throw err
+      })
     }
   },
   graphiql: true
 })
 );
 
-app.listen(3001)
+mongoose
+  .connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-xn2pr.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`)
+  .then(() => {
+    app.listen(3001)
+  }).catch(err => {
+    console.log(err)
+  })
