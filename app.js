@@ -1,72 +1,23 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const graphqlHttp = require('express-graphql')
-const { buildSchema } = require('graphql')
+const express = require('express');
+const bodyParser = require('body-parser');
+const graphqlHttp = require('express-graphql');
 const mongoose = require('mongoose');
 
-const User = require('./models/user')
+const graphQlSchema = require('./graphql/schema/index');
+const graphQlResolvers = require('./graphql/resolvers/index');
+const isAuth = require('./middleware/is-auth');
 
 const app = express()
-
-app.use(bodyParser.json())
-
-app.use('/graphql', graphqlHttp({
-  schema: buildSchema(`
-    type User {
-      _id: ID!
-      name: String!
-      age: Int!
-      city: String!
-    }
-
-    input UserInput {
-      name: String!
-      age: Int!
-      city: String!
-    }
-
-    type RootQuery {
-      users: [User!]!
-    }
-
-    type RootMutation {
-      createUser(userInput: UserInput): User
-    }
-
-    schema {
-      query: RootQuery,
-      mutation: RootMutation
-    }
-  `),
-  rootValue: {
-    users: () => {
-     return User.find()
-      .then(users => {
-        return users.map(user => {
-          return { ...user._doc, _id: user.id }
-        })
-      }).catch(err => {
-        throw err
-      })
-    },
-    createUser: (args) => {
-      const user = new User({
-        name: args.userInput.name,
-        age: args.userInput.age,
-        city: args.userInput.city,
-      })
-      return user
-      .save().then(result => {
-        console.log(result)
-        return {...result._doc}
-      }).catch(err => {
-        console.log(err)
-        throw err
-      })
-    }
-  },
-  graphiql: true
-})
+app
+  .use(bodyParser.json())
+  .use(isAuth)
+  .use(
+  '/graphql',
+  graphqlHttp({
+    schema: graphQlSchema,
+    rootValue: graphQlResolvers,
+    graphiql: true
+  })
 );
 
 mongoose
