@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const graphqlHttp = require('express-graphql')
+const { graphqlUploadExpress } = require('graphql-upload')
 const mongoose = require('mongoose')
 const compression = require('compression')
 const app = express();
@@ -18,6 +19,7 @@ app
   .use(isAuth)
   .use(
   '/graphql',
+  graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }),
   graphqlHttp({
     schema: graphQlSchema,
     rootValue: graphQlResolvers,
