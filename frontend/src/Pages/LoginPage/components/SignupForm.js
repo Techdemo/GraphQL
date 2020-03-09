@@ -2,7 +2,6 @@ import React, { useRef } from 'react'
 import { useAuth } from '../../../Context/AuthContext';
 
 const SignupForm = () => {
-  const [file, setFile] = React.useState(null)
   const emailEl = useRef('')
   const passwordEl = useRef('')
   const cityEl = useRef('')
@@ -22,56 +21,51 @@ const SignupForm = () => {
     const city = cityEl.current.value.trim()
     const age = ageEl.current.value.trim()
 
-    const fileData = new FormData();
-    fileData.append('file', file)
-    fileData.append('upload_preset', process.env.REACT_APP_UPLOAD_PRESET);
-
-    // if (email.length === 0 ||
-    //     password.length === 0) {
-    //   return;
-    // }
-
-    // const reqBody = {
-    //     query: `
-    //       mutation {
-    //         createUser(userInput: {email: "${email}", password: "${password}", age: ${age}, city: "${city}"}) {
-    //           _id
-    //           email
-    //         }
-    //       }
-    //     `
-    //   };
+    if (email.length === 0 ||
+        password.length === 0) {
+      return;
+    }
+    const reqBody = {
+        query: `
+          mutation {
+            createUser(userInput: {email: "${email}", password: "${password}", age: ${age}, city: "${city}"}) {
+              _id
+            }
+          }
+        `
+      };
 
 
-    // fetch(url, {
-    //   method: 'POST',
-    //   body: JSON.stringify(reqBody),
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // })
-    //   .then(res => {
-    //     if (res.status === 200) {
-    //       return res.json()
-    //     } else {
-    //       throw new Error('Sukkel', Error)
-    //     }
-    //   })
-    //   .then(response => {
-    //     console.log("respnse data", response.data)
-    //     if (response.data.login) {
-    //       login(
-    //         response.data.login.token,
-    //         response.data.login.userId,
-    //         response.data.login.tokenExpiration
-    //       )
-    //     }
-    //   })
-    //   .catch(err => {
-    //     console.log(err)
-    //   })
-  }
-  console.log("FILE", file)
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(reqBody),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => {
+         console.log("res status", res.status)
+        if (res.status === 200) {
+          return res.json()
+        } else {
+          throw new Error('Sukkel', Error)
+        }
+      })
+      // TODO: Hier kun je iets doen met de dingen die worden gereturned.
+      // .then(response => {
+      //   console.log("respnse data", response.data)
+      //   if (response.data.login) {
+      //     login(
+      //       response.data.login.token,
+      //       response.data.login.userId,
+      //       response.data.login.tokenExpiration
+      //     )
+      //   }
+      // })
+      .catch(err => {
+        console.log(err)
+      })
+    }
 
   return (
     <form onSubmit={submitHandler}>
@@ -90,10 +84,6 @@ const SignupForm = () => {
       <fieldset>
         <label htmlFor="age">age</label>
         <input type="number" id="age" ref={ageEl} />
-      </fieldset>
-      <fieldset>
-        <label htmlFor="profilePic">Upload Profile picture</label>
-        <input type="file" id="profilePic" onChange={setFile} />
       </fieldset>
       <fieldset>
         <button type="submit">Signup</button>

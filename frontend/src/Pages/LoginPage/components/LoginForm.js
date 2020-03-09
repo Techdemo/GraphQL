@@ -1,6 +1,8 @@
 import React, { useRef } from 'react'
 import { useAuth } from '../../../Context/AuthContext';
 
+import { Form, Label, Button, Fieldset, Input } from './styled';
+
 const LoginForm = () => {
   const emailEl = useRef('')
   const passwordEl = useRef('')
@@ -62,20 +64,19 @@ const LoginForm = () => {
 
 
   return (
-    <form onSubmit={submitHandler}>
-      <p>This is a form for logging in the app</p>
-      <fieldset>
-        <label htmlFor="email">E-mail</label>
-        <input type="email" id="email" ref={emailEl} />
-      </fieldset>
-      <fieldset>
-        <label htmlFor="password">Password</label>
-        <input type="password" id="password" ref={passwordEl} />
-      </fieldset>
-      <fieldset>
-        <button type="submit">Login</button>
-      </fieldset>
-    </form>
+    <Form onSubmit={submitHandler}>
+      <Fieldset>
+        <Label htmlFor="email">E-mail:</Label>
+        <Input type="email" id="email" ref={emailEl} />
+      </Fieldset>
+      <Fieldset>
+        <Label htmlFor="password">Password:</Label>
+        <Input type="password" id="password" ref={passwordEl} />
+      </Fieldset>
+      <Fieldset>
+        <Button type="submit">Login</Button>
+      </Fieldset>
+    </Form>
   )
 }
 
