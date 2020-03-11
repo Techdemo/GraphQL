@@ -19,7 +19,6 @@ app
   .use(isAuth)
   .use(
   '/graphql',
-  graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }),
   graphqlHttp({
     schema: graphQlSchema,
     rootValue: graphQlResolvers,

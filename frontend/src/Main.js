@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 
-import UsersPage from './Pages/UsersPage';
+import UsersPage from './Pages/UsersPage/UsersPage';
 import LoginPage from './Pages/LoginPage/LoginPage';
 
 import { useAuth } from './Context/AuthContext';

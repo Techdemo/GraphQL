@@ -14,13 +14,13 @@ const LoginPage = () => {
 
   return (
     <>
-      <Title>{toggleLogin ? 'Log in' : 'Maak account aan'}</Title>
+      <Title>{toggleLogin ? 'Login' : 'Create account'}</Title>
       {toggleLogin ? (
         <LoginForm />
       ) : (
         <SignupForm />
       )}
-      <Button onClick={() => setToggleLogin(!toggleLogin)}>I want to {login ? 'create an account' : 'login to my account'} </Button>
+      <Button onClick={() => setToggleLogin(!toggleLogin)}>I want to {toggleLogin ? 'create an account' : 'login to my account'} </Button>
     </>
   )
 }

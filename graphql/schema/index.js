@@ -24,6 +24,7 @@ type User {
   password: String
   city: String
   age: Int
+  name: String
   createdEvents: [Event!]
 }
 
@@ -45,10 +46,12 @@ input UserInput {
   password: String!
   age: Int
   city: String
+  name: String
 }
 
 type RootQuery {
     events: [Event!]!
+    users: [User!]!
     bookings: [Booking!]!
     login(email: String!, password: String!): AuthData!
 }

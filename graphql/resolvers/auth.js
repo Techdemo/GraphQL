@@ -5,7 +5,6 @@ const User = require('../../models/user');
 
 module.exports = {
   createUser: async args => {
-    console.log("ARGS", args)
     try {
       const existingUser = await User.findOne({ email: args.userInput.email });
       if (existingUser) {
@@ -15,6 +14,7 @@ module.exports = {
 
       const user = new User({
         email: args.userInput.email,
+        name: args.userInput.name,
         password: hashedPassword,
         age: args.userInput.age,
         city: args.userInput.city

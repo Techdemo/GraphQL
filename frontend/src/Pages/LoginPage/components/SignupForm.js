@@ -1,12 +1,14 @@
 import React, { useRef } from 'react'
 import { useAuth } from '../../../Context/AuthContext';
 
+import { CreateAccountForm, Label, Button, Fieldset, Input } from './styled';
+
 const SignupForm = () => {
   const emailEl = useRef('')
   const passwordEl = useRef('')
   const cityEl = useRef('')
   const ageEl = useRef('')
-  const fileEl = useRef('')
+  const nameEl = useRef('')
 
   const {
     login
@@ -20,6 +22,7 @@ const SignupForm = () => {
     const password = passwordEl.current.value.trim()
     const city = cityEl.current.value.trim()
     const age = ageEl.current.value.trim()
+    const name = nameEl.current.value.trim()
 
     if (email.length === 0 ||
         password.length === 0) {
@@ -28,7 +31,7 @@ const SignupForm = () => {
     const reqBody = {
         query: `
           mutation {
-            createUser(userInput: {email: "${email}", password: "${password}", age: ${age}, city: "${city}"}) {
+            createUser(userInput: {email: "${email}", name: "${name}", password: "${password}", age: ${age}, city: "${city}"}) {
               _id
             }
           }
@@ -68,27 +71,31 @@ const SignupForm = () => {
     }
 
   return (
-    <form onSubmit={submitHandler}>
-      <fieldset>
-        <label htmlFor="email">E-mail</label>
-        <input type="email" id="email" ref={emailEl} />
-      </fieldset>
-      <fieldset>
-        <label htmlFor="password">password</label>
-        <input type="password" id="password" ref={passwordEl} />
-      </fieldset>
-      <fieldset>
-        <label htmlFor="city">City</label>
-        <input type="text" id="city" ref={cityEl} />
-      </fieldset>
-      <fieldset>
-        <label htmlFor="age">age</label>
-        <input type="number" id="age" ref={ageEl} />
-      </fieldset>
-      <fieldset>
-        <button type="submit">Signup</button>
-      </fieldset>
-    </form>
+    <CreateAccountForm onSubmit={submitHandler}>
+      <Fieldset>
+        <Label htmlFor="name">First Name</Label>
+        <Input type="name" id="name" ref={nameEl} />
+      </Fieldset>
+      <Fieldset>
+        <Label htmlFor="email">E-mail</Label>
+        <Input type="email" id="email" ref={emailEl} />
+      </Fieldset>
+      <Fieldset>
+        <Label htmlFor="password">password</Label>
+        <Input type="password" id="password" ref={passwordEl} />
+      </Fieldset>
+      <Fieldset>
+        <Label htmlFor="city">City</Label>
+        <Input type="text" id="city" ref={cityEl} />
+      </Fieldset>
+      <Fieldset>
+        <Label htmlFor="age">age</Label>
+        <Input type="number" id="age" ref={ageEl} />
+      </Fieldset>
+      <Fieldset>
+        <Button type="submit">Signup</Button>
+      </Fieldset>
+    </CreateAccountForm>
   )
 }
 

@@ -1,6 +1,3 @@
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-
 const User = require('../../models/user')
 
 module.exports = {
@@ -8,6 +5,7 @@ module.exports = {
     try {
       const users = await User.find()
       return users.map(user => {
+        console.log(user)
         return { ...user._doc, _id: user.id };
       });
     } catch (err) {

@@ -8,6 +8,14 @@ export const Form = styled.form`
   max-width: 500px;
   margin-top: 1.5em;
 `
+export const CreateAccountForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  min-height: 450px;
+  max-width: 500px;
+  margin-top: 1.5em;
+`
 
 export const Fieldset = styled.fieldset`
   display: flex;
