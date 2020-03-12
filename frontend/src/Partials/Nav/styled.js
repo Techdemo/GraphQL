@@ -41,5 +41,22 @@ export const Title = styled.h1`
 `;
 
 export const LogoutButton = styled.button`
+  color: #F3D9DC;
+  border: none;
+  font-family: 'Open Sans', sans-serif;
+  text-decoration: none;
+  font-size: 1.5em;
+  font-weight: 300;
+  background-color: #231651;
 
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+export const Subtitle = styled.h2`
+  font-size: 1;.5em;
+  font-family: 'Proza Libre', sans-serif;
+  font-weight: 500;
+  color: #F3D9DC;
 `;

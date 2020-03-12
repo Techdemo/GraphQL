@@ -11,8 +11,6 @@ const LoginForm = () => {
     login
   } = useAuth()
 
-  const url = 'http://localhost:3001/graphql'
-
   const submitHandler = event => {
     event.preventDefault()
     const email = emailEl.current.value.trim()
@@ -29,37 +27,12 @@ const LoginForm = () => {
             token
             userId
             tokenExpiration
+            name
           }
         }
       `
     }
-
-    fetch(url, {
-      method: 'POST',
-      body: JSON.stringify(reqBody),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => {
-        if (res.status === 200) {
-          return res.json()
-        } else {
-          throw new Error('Sukkel')
-        }
-      })
-      .then(response => {
-        if (response.data.login) {
-          login(
-            response.data.login.token,
-            response.data.login.userId,
-            response.data.login.tokenExpiration
-          )
-        }
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    login(reqBody)
   }
 
 

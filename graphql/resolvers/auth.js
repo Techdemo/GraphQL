@@ -22,7 +22,7 @@ module.exports = {
 
       const result = await user.save();
 
-      return { ...result._doc, password: null, _id: result.id };
+      return { ...result._doc, password: null, id: result.id };
     } catch (err) {
       throw err;
     }
@@ -43,6 +43,6 @@ module.exports = {
         expiresIn: '1h'
       }
     );
-    return { userId: user.id, token: token, tokenExpiration: 1 };
+    return { name: user.name, userId: user.id, token: token, tokenExpiration: 1 };
   }
 };

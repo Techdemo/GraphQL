@@ -25,19 +25,20 @@ const SignupForm = () => {
     const name = nameEl.current.value.trim()
 
     if (email.length === 0 ||
-        password.length === 0) {
+      password.length === 0) {
       return;
     }
+
     const reqBody = {
-        query: `
+      query: `
           mutation {
             createUser(userInput: {email: "${email}", name: "${name}", password: "${password}", age: ${age}, city: "${city}"}) {
-              _id
+              id
+              email
             }
           }
         `
-      };
-
+    };
 
     fetch(url, {
       method: 'POST',
@@ -47,28 +48,32 @@ const SignupForm = () => {
       }
     })
       .then(res => {
-         console.log("res status", res.status)
         if (res.status === 200) {
           return res.json()
         } else {
           throw new Error('Sukkel', Error)
         }
       })
-      // TODO: Hier kun je iets doen met de dingen die worden gereturned.
-      // .then(response => {
-      //   console.log("respnse data", response.data)
-      //   if (response.data.login) {
-      //     login(
-      //       response.data.login.token,
-      //       response.data.login.userId,
-      //       response.data.login.tokenExpiration
-      //     )
-      //   }
-      // })
-      .catch(err => {
-        console.log(err)
+      .then(data => {
+        let query = {
+          query: `
+            query {
+              login (email:"${email}", password: "${password}") {
+                token
+                userId
+                tokenExpiration
+                name
+              }
+            }
+          `
+        }
+        login(query)
       })
-    }
+    .catch(err => {
+      console.log(err)
+      alert(err)
+    })
+  }
 
   return (
     <CreateAccountForm onSubmit={submitHandler}>

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import { Title, UserContainer, Container, UserTitle, UserAge } from './styled';
+
 const UsersPage = () => {
   const [users, setUsers] = useState([])
 
@@ -39,12 +41,14 @@ const UsersPage = () => {
   return (
     <>
       {console.log("users", users)}
-      <h3>Je bent ingelogd</h3>
-      {users.map((user, index) =>
-        <div key={index}>
-          <p>{user.name}</p>
-          <p>{user.age}</p>
-        </div>)}
+      <Title>Users</Title>
+      <Container>
+        {users.map((user, index) =>
+          <UserContainer key={index}>
+            <UserTitle>Naam: {user.name}</UserTitle>
+            <UserAge>Leeftijd: {user.age}</UserAge>
+          </UserContainer>)}
+      </Container>
     </>
   )
 }

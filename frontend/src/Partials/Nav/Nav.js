@@ -1,17 +1,19 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { NavContainer, ListContainer, Title, LinkContainer, Header, LogoutButton } from './styled'
+import { NavContainer, ListContainer, Title, LinkContainer, Header, LogoutButton, Subtitle } from './styled'
 import { useAuth } from '../../Context/AuthContext';
 
 const Nav = () => {
   const {
     token,
-    logout
+    logout,
+    username
   } = useAuth()
 
   return (
     <Header>
       <Title>Dating App</Title>
+      <Subtitle>{username}</Subtitle>
       <NavContainer>
         <ListContainer>
           {token && (
