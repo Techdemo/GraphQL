@@ -22,6 +22,9 @@ const Nav = () => {
                 <NavLink className="navLink" to="/users">Users</NavLink>
               </LinkContainer>
               <LinkContainer>
+                <NavLink className="navLink" to="/account">My account</NavLink>
+              </LinkContainer>
+              <LinkContainer>
                 <LogoutButton onClick={logout}>log out</LogoutButton>
               </LinkContainer>
             </>

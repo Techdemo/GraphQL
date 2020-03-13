@@ -3,6 +3,7 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 
 import UsersPage from './Pages/UsersPage/UsersPage';
 import LoginPage from './Pages/LoginPage/LoginPage';
+import AccountPage from './Pages/AccountPage/AccountPage'
 
 import { useAuth } from './Context/AuthContext';
 
@@ -27,8 +28,12 @@ const Main = () => {
           <Redirect from="/users" to="/login" exact />
         )}
         {!sessionToken && (
+          <Redirect from="/account" to="/login" exact />
+        )}
+        {!sessionToken && (
           <Route path="/login" component={LoginPage} />
         )}
+        <Route path="/account" component={AccountPage} />
         <Route path="/users" component={UsersPage} />
         {!sessionToken && <Redirect to="/login" exact />}
       </Switch>

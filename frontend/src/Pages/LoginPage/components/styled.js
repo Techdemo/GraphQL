@@ -6,7 +6,6 @@ export const Form = styled.form`
   justify-content: space-evenly;
   min-height: 250px;
   max-width: 500px;
-  margin-top: 1.5em;
 `
 export const CreateAccountForm = styled.form`
   display: flex;
@@ -14,7 +13,6 @@ export const CreateAccountForm = styled.form`
   justify-content: space-evenly;
   min-height: 450px;
   max-width: 500px;
-  margin-top: 1.5em;
 `
 
 export const Fieldset = styled.fieldset`
@@ -73,3 +71,20 @@ export const Button = styled.button`
     border: 1px solid #231651;
   }
 `;
+
+export const AlertText = styled.p`
+  color: red;
+  font-family: OpenSans-Regular;
+  font-size: 16px;
+  opacity: 0;
+  transition: all 0.2s linear;
+
+  ${({ active }) => active && `
+    opacity: 1;
+`}
+`;
+
+export const AlertTextContainer = styled.div`
+  height: 18px;
+  margin-top: 0.5em;
+`

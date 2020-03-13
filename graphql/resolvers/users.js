@@ -11,5 +11,16 @@ module.exports = {
     } catch (err) {
       throw err
     }
+  },
+  user: async ({ id }) => {
+    try {
+      const user = await User.findOne({ id: id });
+      if (user) {
+        throw new Error('User exists already.');
+      }
+      return { ...result._doc, name: user.name, age: user.age };
+    } catch (err) {
+      throw err;
+    }
   }
 }

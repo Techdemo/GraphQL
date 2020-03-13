@@ -1,9 +1,10 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { useAuth } from '../../../Context/AuthContext';
 
-import { CreateAccountForm, Label, Button, Fieldset, Input } from './styled';
+import { CreateAccountForm, Label, Button, Fieldset, Input, AlertText, AlertTextContainer } from './styled';
 
 const SignupForm = () => {
+  const [validationError, setValidationError] = useState(false)
   const emailEl = useRef('')
   const passwordEl = useRef('')
   const cityEl = useRef('')
@@ -25,7 +26,12 @@ const SignupForm = () => {
     const name = nameEl.current.value.trim()
 
     if (email.length === 0 ||
-      password.length === 0) {
+      password.length === 0 ||
+      city.length === 0 ||
+      age.length === 0 ||
+      name.length === 0) {
+      setValidationError(true)
+      setTimeout(() => setValidationError(false), 2000)
       return;
     }
 
@@ -76,31 +82,36 @@ const SignupForm = () => {
   }
 
   return (
-    <CreateAccountForm onSubmit={submitHandler}>
-      <Fieldset>
-        <Label htmlFor="name">First Name</Label>
-        <Input type="name" id="name" ref={nameEl} />
-      </Fieldset>
-      <Fieldset>
-        <Label htmlFor="email">E-mail</Label>
-        <Input type="email" id="email" ref={emailEl} />
-      </Fieldset>
-      <Fieldset>
-        <Label htmlFor="password">password</Label>
-        <Input type="password" id="password" ref={passwordEl} />
-      </Fieldset>
-      <Fieldset>
-        <Label htmlFor="city">City</Label>
-        <Input type="text" id="city" ref={cityEl} />
-      </Fieldset>
-      <Fieldset>
-        <Label htmlFor="age">age</Label>
-        <Input type="number" id="age" ref={ageEl} />
-      </Fieldset>
-      <Fieldset>
-        <Button type="submit">Signup</Button>
-      </Fieldset>
-    </CreateAccountForm>
+    <>
+      <AlertTextContainer>
+        <AlertText active={validationError}>*Please fill in all of the form fields</AlertText>
+      </AlertTextContainer>
+      <CreateAccountForm onSubmit={submitHandler}>
+        <Fieldset>
+          <Label htmlFor="name">First Name</Label>
+          <Input type="name" id="name" ref={nameEl} />
+        </Fieldset>
+        <Fieldset>
+          <Label htmlFor="email">E-mail</Label>
+          <Input type="email" id="email" ref={emailEl} />
+        </Fieldset>
+        <Fieldset>
+          <Label htmlFor="password">password</Label>
+          <Input type="password" id="password" ref={passwordEl} />
+        </Fieldset>
+        <Fieldset>
+          <Label htmlFor="city">City</Label>
+          <Input type="text" id="city" ref={cityEl} />
+        </Fieldset>
+        <Fieldset>
+          <Label htmlFor="age">age</Label>
+          <Input type="number" id="age" ref={ageEl} />
+        </Fieldset>
+        <Fieldset>
+          <Button type="submit">Signup</Button>
+        </Fieldset>
+      </CreateAccountForm>
+    </>
   )
 }
 
