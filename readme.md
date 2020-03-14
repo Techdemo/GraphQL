@@ -1,6 +1,6 @@
 # Project Tech
 
-![screen2](/Users/marcelfleuren/Desktop/herkansingen/projectTech/screen2.png)
+![screen2](./screen2.png)
 
 ## Inhoudsopgave
 
@@ -43,8 +43,8 @@ Graphql is een query taal voor een API. Dit wil zeggen dat Graphql de API een ma
 
 ![graph2](./graph2.png)
 
-In het bovenstaande voorbeeld zie je hoe uitgebreid een query kan worden opgebouwd. Ieder object die je opvraagt als response in je query is opzich ook weer strict typed zien. Je ziet dat een Hero van het type character is, die vervolgens een naam heeft als een string. Planet is ook een type, die opzich ook een string als name heeft. Etc. 
-Wanneer je een query zoals deze voor jezelf uittekent, snap je waar de naam Graphql vandaan komt. Alles lijkt als een soort boomdiagram in elkaar opgebouwd.  
+In het bovenstaande voorbeeld zie je hoe uitgebreid een query kan worden opgebouwd. Ieder object die je opvraagt als response in je query is opzich ook weer strict typed zien. Je ziet dat een Hero van het type character is, die vervolgens een naam heeft als een string. Planet is ook een type, die opzich ook een string als name heeft. Etc.
+Wanneer je een query zoals deze voor jezelf uittekent, snap je waar de naam Graphql vandaan komt. Alles lijkt als een soort boomdiagram in elkaar opgebouwd.
 
 ## Het verschil tussen graphql en een Rest api
 
@@ -59,7 +59,7 @@ Een REST Api werkt met endpoints waarin de data die er wordt teruggegeven aan de
 ### Rest api
 
 Als je bijvoorbeeld een lijst met Users opvraagt via deze endpoint, krijg je een array met User objecten terug zoals deze is bepaald door de backend-end developer. De array met users, bevat voor elke user een object met daarin alle properties die onder een user object vallen.
-Stel dat je een array met Users wilt ontvangen, waarin alleen de voornamen en usernames van een user staan vermeld in het object. Zou de backend-developer daar een aparte endpoint voor moeten schrijven. Je zou als developer natuurlijk ook de endpoint kunnen gebruiken waarin de Users array met hun individuele objecten en properties wordt teruggegeven. Echter, je vraagt teveel data op voor datgene wat je wilt laten zien op je scherm. 
+Stel dat je een array met Users wilt ontvangen, waarin alleen de voornamen en usernames van een user staan vermeld in het object. Zou de backend-developer daar een aparte endpoint voor moeten schrijven. Je zou als developer natuurlijk ook de endpoint kunnen gebruiken waarin de Users array met hun individuele objecten en properties wordt teruggegeven. Echter, je vraagt teveel data op voor datgene wat je wilt laten zien op je scherm.
 
 ```json
 [
@@ -91,13 +91,13 @@ Stel dat je een array met Users wilt ontvangen, waarin alleen de voornamen en us
 
 ### Graphql
 
-Grapql biedt je 1 endpoint waar je een querystring naar kan sturen. In deze string geef je precies aan welke data je wilt hebben. De graphql laag leeft als het ware tussen de api en de client in. Op basis van wat er in de query string wordt meegegeven, zoekt Graphql alle data bij elkaar. Deze data, en alleen de data gespecificeerd in de query, wordt teruggegeven. 
+Grapql biedt je 1 endpoint waar je een querystring naar kan sturen. In deze string geef je precies aan welke data je wilt hebben. De graphql laag leeft als het ware tussen de api en de client in. Op basis van wat er in de query string wordt meegegeven, zoekt Graphql alle data bij elkaar. Deze data, en alleen de data gespecificeerd in de query, wordt teruggegeven.
 
 ```javascript
 // endpoint
 'https://json-placeholder-graphql.herokuapp.com/graphql'
 
-// dit is de query die als GET request verstuurd wordt naar de graphql endpoint.  Elke query start met het keyword 'query'. Vervolgens stel je zelf een query samen.  In de query specificeer je welke data de response moet bevatten. 
+// dit is de query die als GET request verstuurd wordt naar de graphql endpoint.  Elke query start met het keyword 'query'. Vervolgens stel je zelf een query samen.  In de query specificeer je welke data de response moet bevatten.
 
 const query = {
   '
@@ -138,14 +138,14 @@ const query = {
 
 #### Aanmaken van gebruiker
 
-Voor het toevoegen van een gebruiker aan Mongodb met behulp van Graphql moet je eerst een schema voorzien. Zo weet de server welke data moet worden verzonden in de query eveneens het datatype van elk property van het object. In ons geval een User. 
+Voor het toevoegen van een gebruiker aan Mongodb met behulp van Graphql moet je eerst een schema voorzien. Zo weet de server welke data moet worden verzonden in de query eveneens het datatype van elk property van het object. In ons geval een User.
 
-Voor het aanmaken en wijzigen van data gebruik je binnen Graphql een `mutation`. Deze is als volgt opgesteld. 
+Voor het aanmaken en wijzigen van data gebruik je binnen Graphql een `mutation`. Deze is als volgt opgesteld.
 `createUser(userInput: UserInput): User`
 
-de CreateUser mutation neemt als input `userInput`. Hier komt alle data in terecht die de gebruiker verstuurd naar de server bij het submitten van de form. `UserInput` wordt gedefineerd als input. De input moet vervolgens bestaan uit de data die is defineerd binnen je Schema's. Vervolgens wordt er een `User` object als response gegeven.  
+de CreateUser mutation neemt als input `userInput`. Hier komt alle data in terecht die de gebruiker verstuurd naar de server bij het submitten van de form. `UserInput` wordt gedefineerd als input. De input moet vervolgens bestaan uit de data die is defineerd binnen je Schema's. Vervolgens wordt er een `User` object als response gegeven.
 
-```json
+```javascript
 type User {
 	id: ID!
 	email: String!
@@ -164,13 +164,13 @@ input UserInput {
 }
 ```
 
-Aan de frontend zijde kan er bij een form submit een query worden samengesteld. Deze moet alle data bevatten die in het schema met `!` is aangegeven. Dit houdt in dat deze data required is om te versturen naar de mongo database. 
+Aan de frontend zijde kan er bij een form submit een query worden samengesteld. Deze moet alle data bevatten die in het schema met `!` is aangegeven. Dit houdt in dat deze data required is om te versturen naar de mongo database.
 
 ```Javascript
 const reqBody = {
   query: `
 		mutation {
-			createUser(userInput: {email: "${email}", password: "${password}", age: ${age}, name: 				"${name}", city: "${city}"}) {
+			createUser(userInput: {email: "${email}", password: "${password}", age: ${age}, name:"${name}", city: "${city}"}) {
 				id
 				email
 			}
@@ -181,11 +181,11 @@ const reqBody = {
 
 In de bovenstaande mutation geven we aan dat we  `id` en `email`  als response willen ontvangen wanneer de mutation succesvol is. De Id en email gebruik in dit geval om de gebruiker in te loggen op de applicatie.
 
-Met behulp van [Bcrypt](https://www.npmjs.com/package/bcrypt) hashen we het wachtwoord voordat we deze opslaan in de database. Bij het inloggen krijgt de user een [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) terug die is gesigned. 
+Met behulp van [Bcrypt](https://www.npmjs.com/package/bcrypt) hashen we het wachtwoord voordat we deze opslaan in de database. Bij het inloggen krijgt de user een [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) terug die is gesigned.
 
 #### Context api en authentication
 
-Om in te kunnen loggen kan de client met behulp van een form submit een query uitoefenen op de Graphql server. 
+Om in te kunnen loggen kan de client met behulp van een form submit een query uitoefenen op de Graphql server.
 
 ```javascript
 query {
@@ -203,7 +203,7 @@ Wanneer je met Graphql data opvraagt, maak je gebruik van een Query. In de boven
 
 In mijn optiek ligt dit volledig aan de use case en de samenstelling van je team. Graphql kan het voor de client aanzienlijk minder belastend maken om data op te vragen, het 'over-fetchen' van data wordt immers gelimiteerd. Werk je in een klein team aan een POC waarmee je snel wilt kunnen itereren is graphql ook een goede oplossing. Je backend developer hoeft immers niet bij elke wijziging terug naar de tekentafel, front-end developers kunnen hun query gewoon aanpassen op datgene wat ze nodig hebben.
 
-Rest brengt je aan de andere kant een vorm van stabiliteit. Er is een grote community, er zijn goede oplossingen voor authentication en security. 
+Rest brengt je aan de andere kant een vorm van stabiliteit. Er is een grote community, er zijn goede oplossingen voor authentication en security.
 
 Wat ik zou doen, is de twee vormen een aparte benadering geven. Ga je voor snelheid in productie alswel development, ga dan voor Graphql. Maar zie Graphql vooral als een tool. Voor stabiliteit en langdurigheid wint een Rest api, echter benader Rest als een architectonische oplossing voor je data.
 
@@ -218,9 +218,9 @@ Wat ik zou doen, is de twee vormen een aparte benadering geven. Ga je voor snelh
 ### De nadelen van Graphql
 
 - Er is nog een relatief kleine community echt actief omtrent graphql. Er zijn veel enthousiastelingen maar in-depth resources zijn nog lastig te vinden.
-- Als je niet bekend bent met een strict type systeem, is debuggen vrij lastig. 
+- Als je niet bekend bent met een strict type systeem, is debuggen vrij lastig.
 - Er is meer boilerplate nodig dan bij een doorgaanse rest api.
-- Graphql wordt pas echt nuttig bij applicaties van een bepaald formaat of bij het gebruik van meerdere databronnen. 
+- Graphql wordt pas echt nuttig bij applicaties van een bepaald formaat of bij het gebruik van meerdere databronnen.
 - Caching is lastig om voor elkaar te krijgen met Graphql. Je query kan namelijk steeds verschillen afhankelijk van de data die je opvraagt, je kan niet 1 response caching voor hergebruik. Er zijn wel alternatieven beschikbaar maar dan loop je tegen een hoeveelheid extra boilerplate op.
 - Er is nog geen standaard voor het beveiligen van je endpoints. Tevens is er ook nog geen standaard voor authentication.
 
@@ -228,7 +228,7 @@ Wat ik zou doen, is de twee vormen een aparte benadering geven. Ga je voor snelh
 
 Iedere week komen er wel nieuwe libraries of packages uit die developers beloftes doen over het oplossen van problemen in productie. Een van mijn leerdoelen tijdens mijn stage periode was om te leren hoe je onderzoek doet naar of een nieuwe techniek/package/library daadwerkelijk de moeite waard is. Tijdens het maken van deze opdracht voor Project Tech vond ik het leuk om te merken dat ik hier daadwerkelijk beter in ben geworden.
 
-Wanneer je als developer op jezelf onderzoek doet of iets 'the next big thing' kan worden is in mijn mening, een eenzijdige vorm van de waarheid. Of, bijvoorbeeld graphql, echt zal doorzetten zul je alleen ontdekken wanneer je dit als team in productie kan uitvoeren. Dan zul je facetten gaan ontdekken die er in mijn optiek daadwerkelijk toe doen. 
+Wanneer je als developer op jezelf onderzoek doet of iets 'the next big thing' kan worden is in mijn mening, een eenzijdige vorm van de waarheid. Of, bijvoorbeeld graphql, echt zal doorzetten zul je alleen ontdekken wanneer je dit als team in productie kan uitvoeren. Dan zul je facetten gaan ontdekken die er in mijn optiek daadwerkelijk toe doen.
 
 ## Bronnen
 
