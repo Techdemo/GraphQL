@@ -4,6 +4,7 @@ const graphqlHttp = require('express-graphql')
 const mongoose = require('mongoose')
 const compression = require('compression')
 const app = express();
+const path = require('path')
 
 const graphQlSchema = require('./graphql/schema/index')
 const graphQlResolvers = require('./graphql/resolvers/index')
@@ -14,6 +15,7 @@ app
   .use(cors)
   .use(compression())
   .use(bodyParser.urlencoded({ extended: true }))
+  .use(express.static('public'))
   .use(express.json())
   .use(isAuth)
   .use(
@@ -35,3 +37,11 @@ mongoose
   }).catch(err => {
     console.log(err)
   })
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+})
+
+const PORT = process.env.PORT || 3001
+
+app.listen(PORT, () => console.log(`server started on port ${PORT}`));
