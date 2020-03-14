@@ -126,7 +126,7 @@ const query = {
 
 ## Hoe werkt mijn prototype?
 
-![screen3](/Users/marcelfleuren/Desktop/herkansingen/projectTech/screen3.png)
+![screen3](./projectTech/screen3.png)
 
 *Als gebruiker wil ik een account kunnen aanmaken, zodat ik vervolgens kan inloggen op de app om alle content te bekijken die alleen voor leden toegankelijk is.*
 
