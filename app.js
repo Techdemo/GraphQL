@@ -29,6 +29,10 @@ app
 
 const PORT = process.env.PORT || 3001
 
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '/../public/index.html'));
+})
+
 mongoose
   .connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-xn2pr.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`, {
     useNewUrlParser: true,
@@ -39,7 +43,3 @@ mongoose
   }).catch(err => {
     console.log(err)
   })
-
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '/public/index.html'));
-})
