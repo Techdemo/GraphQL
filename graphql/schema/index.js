@@ -27,6 +27,7 @@ input UserInput {
 
 type RootQuery {
   users: [User!]!
+  user(id: String!): User!
   login(email: String!, password: String!): AuthData!
 }
 

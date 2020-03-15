@@ -13,13 +13,17 @@ module.exports = {
     }
   },
   user: async ({ id }) => {
+    console.log("ID", id)
     try {
-      const user = await User.findOne({ id: id });
+      const user = await User.findOne({ _id: id });
+      console.log("user", user.name)
       if (user) {
+        return { ...user._doc, name: user.name, age: user.age, city: user.city };
+      } else {
         throw new Error('User exists already.');
       }
-      return { ...result._doc, name: user.name, age: user.age };
     } catch (err) {
+      console.log("error", err)
       throw err;
     }
   }
