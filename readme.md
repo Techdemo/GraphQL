@@ -5,7 +5,7 @@
 ## Inhoudsopgave
 
 - [De Opdracht](#De-Opdracht)
-- [User story](#User-Story)
+- [Job story](#Job-Story)
   - [De Uitdaging](#De-uitdaging)
   - [Waarom Graphql?](#Waarom-graphql?)
   - [Wat is Graphql?](#Wat-is-Graphql?)
@@ -13,6 +13,12 @@
   - [Rest api](#Rest-api)
   - [Graphql](#Graphql)
 - [Hoe werkt mijn prototype?](#Hoe-werkt-mijn-prototype?)
+  - [Stack](#Stack)
+  - [Aanmaken van gebruiker](#Aanmaken-van-gebruiker)
+  - [Context api en authentication](#Context-api-en-authentication)
+  - [Styleguide](#styleguide)
+  - [Styled componenents](#Styled-components)
+  - [Heroku Deployment](#Heroku-Deployment)
 - [Wanneer kies je voor GraphQL boven Rest?](#Wanneer-kies-je-voor-GraphQL-boven-Rest?)
   - [De voordelen van graphql](#De-voordelen-van-Graphql)
   - [De nadelen van Graphql](#De-nadelen-van-Graphql)
@@ -21,21 +27,23 @@
 
 ## De Opdracht
 
-Een User story uitwerken in een klikbaar prototype. Het prototype moet een frontend bevatten, een backend server en een koppeling met een database.
+Een Job story uitwerken in een klikbaar prototype. Het prototype moet een frontend bevatten, een backend server en een koppeling met een database.
 
-## User Story
+## Job Story
 
 Als gebruiker wil ik een account kunnen aanmaken, zodat ik vervolgens kan inloggen op de app om alle content te bekijken die alleen voor leden toegankelijk is.
 
 ### De uitdaging
 
-Het vak Project Tech stond tevens in het teken van het aangaan van nieuwe uitdagingen. Daarom heb ik er voor gekozen om een simpele api te bouwen met behulp van GraphQl.
+Het onderzoeken van een nieuwe techniek en deze te verwerken in een werkend prototype van mijn Job story.
 
 ### Waarom graphql?
 
-Tijdens mijn stage bij Label A hoorde ik voor het eerst van Graphql. Het was een techniek waar een van de backend-end developers enthousiast van werdt. Vervolgens kwam ik de term vaker tegen op sites zoals dev.to, Reddit en Fireship.io. Vervolgens besloot ik er steeds meer over te lezen. In eerste opzicht leek Graphql een interessante tegenhanger van een REST Api en de online community leek zeer enthousiast. Bij Project Tech werd gevraagd om een uitdaging aan te gaan en iets nieuws te leren, dit leek mij dan een perfecte gelegenheid om graphql uit te zoeken.
+Bij Project Tech wordt aan de student gevraagd om zichzelf uit te dagen. Om nieuwe technieken te ontdekken. Om mijzelf uit te dagen heb ik gekozen om een api met Graphql te bouwen. Ik was nog niet bekend met graphql en kan zeker zeggen dat ik mijzelf heb uitgedaagd tijdens het maken van deze opdracht.
 
-Aan de hand van dit onderzoek heb ik een kleine readme geschreven waarin ik vooral reflecteer op de verschillen tussen Rest en Graphql
+Tijdens mijn stage bij Label A hoorde ik voor het eerst van Graphql. Het was een techniek waar een van de backend-end developers enthousiast van werdt. Vervolgens kwam ik de term vaker tegen op sites zoals dev.to, Reddit en Fireship.io. Vervolgens besloot ik er steeds meer over te lezen. In eerste opzicht leek Graphql een interessante tegenhanger van een REST Api en de online community leek zeer enthousiast. 
+
+Aan de hand van dit onderzoek heb ik een kleine readme geschreven waarin ik vooral reflecteer op de verschillen tussen Rest en Graphql.
 
 ### Wat is Graphql?
 
@@ -197,7 +205,31 @@ query {
 }
 ```
 
-Wanneer je met Graphql data opvraagt, maak je gebruik van een Query. In de bovenstaande query geven we aan dat we een aantal zaken als response willen ontvangen. De token, userId en tokenExpiration sla ik tijdelijk op in de `Authcontext`. De Context api zorgt er voor dat de token, userId en tokenExpiration over de gehele applicatie beschikbaar zijn. Dit is uiteraard totdat de window wordt gerefreshed. Het uitwerken van een local storage om een sessie langer vast te houden viel niet binnen de scope van deze user story.
+Wanneer je met Graphql data opvraagt, maak je gebruik van een Query. In de bovenstaande query geven we aan dat we een aantal zaken als response willen ontvangen. De token, userId en tokenExpiration sla ik tijdelijk op in de `Authcontext`. De Context api zorgt er voor dat de token, userId en tokenExpiration over de gehele applicatie beschikbaar zijn. Dit is uiteraard totdat de window wordt gerefreshed. Het uitwerken van een local storage om een sessie langer vast te houden viel niet binnen de scope van deze job story.
+
+#### Styleguide
+
+![styleguide](./styleguide.png)
+
+### Styled components
+
+Voor het toepassen van css op alle functional components heb ik gebruik gemaakt van [Styled-components](https://www.npmjs.com/package/styled-components). Het is een library die je in staat stelt om css-in-js te schrijven. Wat betreft seperation of concerns vind ik styled components ideaal in een React omgeving. Css en Javascript zijn met het gebruik van deze library misschien niet meer strict gescheiden. Echter, voor de leesbaarheid van je code vind ik het ideaal. Ieder functioneel component heeft zijn eigen styling en het is tevens mogelijk om styling aan te passen op basis van de props die je meegeeft aan een exported styling object. 
+
+#### Heroku deployment
+
+In de eerste instantie wilde ik de applicatie live zetten op Netlify. Echter, ik kwam er achter dat Netlify alleen static sites hosts. Dus mijn React frontend zou er wel op draaien maar zou dan geen verbinding kunnen maken met de graphql server. De server zelf zou ik dan op Heroku moeten deployen zodat de api wel ergens live zou staan. Ik wilde niet mijn applicatie opsplitsen over twee hostingsproviders.
+
+Na wat onderzoek kwam ik erachter dat je React en Graphql samen kan deployen op 1 heroky dyno. Dit heb ik gedaan door een static build te maken van de React fronten. Daarna een verwijzing te maken op mijn server dat alle inkomende requests geredirect moeten worden naar het index.html bestand in de buildfolder. 
+
+```Javascript
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '/../public/index.html'));
+})
+```
+
+Helemaal foolproof is dit niet. Er speelt zich nog een bug op de live applicatie dat wanneer je refresht op de browser, de route naar index.html niet gevonden wordt. Dit moet ik nog oplossen.
+
+De rest van het deployment proces is vergelijkbaar bij wanneer je dat zou doen bij een normale Express applicatie. 
 
 ## Wanneer kies je voor GraphQL boven Rest?
 
