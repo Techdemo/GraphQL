@@ -13,6 +13,7 @@
   - [Rest api](#Rest-api)
   - [Graphql](#Graphql)
 - [Hoe werkt mijn prototype?](#Hoe-werkt-mijn-prototype?)
+  - [Wireflow](#Wireflow)
   - [Stack](#Stack)
   - [Aanmaken van gebruiker](#Aanmaken-van-gebruiker)
   - [Context api en authentication](#Context-api-en-authentication)
@@ -137,6 +138,12 @@ const query = {
 ![screen3](./screen3.png)
 
 *Als gebruiker wil ik een account kunnen aanmaken, zodat ik vervolgens kan inloggen op de app om alle content te bekijken die alleen voor leden toegankelijk is.*
+
+#### Wireflow
+
+![wireflow](./wireflow.png)
+
+De jobstory zal is in de wireflow beknopt beschreven. De gebruiker kan een account aanmaken of inloggen met een account. Op het homescherm zal de gebruiker kunnen switchen tussen een login formulier en een create account formulier. Bij het succesvol inloggen of bij succesvol aanmaken van een account, wordt de gebruiker geredirect naar de lijst van andere gebruikers binnen de applicatie.
 
 #### Stack
 
