@@ -220,7 +220,18 @@ Wanneer je met Graphql data opvraagt, maak je gebruik van een Query. In de boven
 
 ### Styled components
 
-Voor het toepassen van css op alle functional components heb ik gebruik gemaakt van [Styled-components](https://www.npmjs.com/package/styled-components). Het is een library die je in staat stelt om css-in-js te schrijven. Wat betreft seperation of concerns vind ik styled components ideaal in een React omgeving. Css en Javascript zijn met het gebruik van deze library misschien niet meer strict gescheiden. Echter, voor de leesbaarheid van je code vind ik het ideaal. Ieder functioneel component heeft zijn eigen styling en het is tevens mogelijk om styling aan te passen op basis van de props die je meegeeft aan een exported styling object. 
+Voor het toepassen van css op alle functional components heb ik gebruik gemaakt van [Styled-components](https://www.npmjs.com/package/styled-components). Dit is een library waar ik nog niet zo bekend mee was. Het is een library die je in staat stelt om css-in-js te schrijven. Wat betreft seperation of concerns vind ik styled components ideaal in een React omgeving. Css en Javascript zijn met het gebruik van deze library misschien niet meer strict gescheiden. Echter, voor de leesbaarheid van je code vind ik het ideaal. Ieder functioneel component heeft zijn eigen styling. Wat ik heb ontdekt is dat het mogelijk is om styling aan te passen op basis van de props die je meegeeft aan een exported styling object. 
+
+```javascript
+export const AlertText = styled.p`
+  color: red;
+
+  ${({ active }) => active && `
+    opacity: 1;
+`}
+```
+
+In `<AlertText active={true} />` component geef ik de prop active mee. Dit is een boolean die uiteindelijk de opacity waarde bepaald.
 
 #### Heroku deployment
 
